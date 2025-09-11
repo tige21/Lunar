@@ -1,0 +1,41 @@
+{
+  "gluestack-ui": {
+    "cssVariables": false,
+    "components": {
+      "Button": {
+        "theme": {
+          "primary": {
+            "bg": "bg-primary-500",
+            "_text": { "color": "text-white" },
+            "_hover": { "bg": "bg-primary-600" },
+            "_pressed": { "bg": "bg-primary-700" },
+            "_disabled": { "bg": "bg-gray-300" }
+          },
+          "secondary": {
+            "bg": "bg-secondary-500",
+            "_text": { "color": "text-white" },
+            "_hover": { "bg": "bg-secondary-600" },
+            "_pressed": { "bg": "bg-secondary-700" }
+          },
+          "outline": {
+            "bg": "bg-transparent",
+            "borderWidth": 1,
+            "borderColor": "border-primary-500",
+            "_text": { "color": "text-primary-500" },
+            "_hover": { "bg": "bg-primary-50" }
+          }
+        }
+      },
+      "Text": {
+        "theme": {
+          "light": {
+            "color": "text-gray-900"
+          },
+          "dark": {
+            "color": "text-gray-100"
+          }
+        }
+      }
+    }
+  }
+}

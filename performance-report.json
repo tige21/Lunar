@@ -1,0 +1,1632 @@
+{
+  "timestamp": "2025-09-10T22:52:00.182Z",
+  "bundleAnalysis": {
+    "nodeModulesSize": "534.0MB",
+    "estimatedJSBundleSize": "~52.1MB",
+    "codeComplexity": {
+      "totalComponents": 147,
+      "totalLines": 43884,
+      "totalAnimations": 663,
+      "averageLinesPerComponent": 299,
+      "animationDensity": 4.51
+    },
+    "recommendations": [
+      "Node modules size excessive - audit and remove unused packages",
+      "CRITICAL: Node modules over 500MB - major cleanup needed"
+    ]
+  },
+  "componentAnalysis": [
+    {
+      "file": ".claude/agents/welcome.tsx",
+      "lines": 179,
+      "hooks": 0,
+      "animations": 15,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "app/(tabs)/_layout.tsx",
+      "lines": 67,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "app/(tabs)/analytics-original.tsx",
+      "lines": 1680,
+      "hooks": 22,
+      "animations": 53,
+      "complexRendering": [
+        "Multiple map operations detected"
+      ],
+      "memoryRisks": [
+        "Potential setTimeout without cleanup",
+        "useEffect without cleanup functions"
+      ]
+    },
+    {
+      "file": "app/(tabs)/analytics.tsx",
+      "lines": 266,
+      "hooks": 10,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": [
+        "Potential setTimeout without cleanup",
+        "useEffect without cleanup functions"
+      ]
+    },
+    {
+      "file": "app/(tabs)/chat-optimized.tsx",
+      "lines": 554,
+      "hooks": 8,
+      "animations": 3,
+      "complexRendering": [
+        "Potential redundant mapping with FlatList"
+      ],
+      "memoryRisks": [
+        "Potential setTimeout without cleanup"
+      ]
+    },
+    {
+      "file": "app/(tabs)/chat-original.tsx",
+      "lines": 997,
+      "hooks": 32,
+      "animations": 8,
+      "complexRendering": [
+        "Potential redundant mapping with FlatList",
+        "Multiple map operations detected",
+        "JSON operations in render path"
+      ],
+      "memoryRisks": [
+        "Event listeners without cleanup"
+      ]
+    },
+    {
+      "file": "app/(tabs)/chat.tsx",
+      "lines": 349,
+      "hooks": 17,
+      "animations": 0,
+      "complexRendering": [
+        "JSON operations in render path"
+      ],
+      "memoryRisks": [
+        "Event listeners without cleanup"
+      ]
+    },
+    {
+      "file": "app/(tabs)/improve.tsx",
+      "lines": 55,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "app/(tabs)/index-original.tsx",
+      "lines": 1360,
+      "hooks": 14,
+      "animations": 30,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "app/(tabs)/index.tsx",
+      "lines": 210,
+      "hooks": 5,
+      "animations": 6,
+      "complexRendering": [],
+      "memoryRisks": [
+        "useEffect without cleanup functions"
+      ]
+    },
+    {
+      "file": "app/(tabs)/settings.tsx",
+      "lines": 241,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "app/+not-found.tsx",
+      "lines": 33,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "app/_layout.tsx",
+      "lines": 74,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "app/debug/healthkit-test.tsx",
+      "lines": 216,
+      "hooks": 1,
+      "animations": 0,
+      "complexRendering": [
+        "JSON operations in render path"
+      ],
+      "memoryRisks": [
+        "Potential setTimeout without cleanup"
+      ]
+    },
+    {
+      "file": "app/index.tsx",
+      "lines": 92,
+      "hooks": 2,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": [
+        "Potential setTimeout without cleanup",
+        "useEffect without cleanup functions"
+      ]
+    },
+    {
+      "file": "app/onboarding/_layout.tsx",
+      "lines": 88,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "app/onboarding/ai-chat.tsx",
+      "lines": 519,
+      "hooks": 12,
+      "animations": 18,
+      "complexRendering": [],
+      "memoryRisks": [
+        "Potential setTimeout without cleanup",
+        "useEffect without cleanup functions"
+      ]
+    },
+    {
+      "file": "app/onboarding/benefits.tsx",
+      "lines": 325,
+      "hooks": 9,
+      "animations": 18,
+      "complexRendering": [],
+      "memoryRisks": [
+        "useEffect without cleanup functions"
+      ]
+    },
+    {
+      "file": "app/onboarding/chronotype.tsx",
+      "lines": 645,
+      "hooks": 14,
+      "animations": 25,
+      "complexRendering": [],
+      "memoryRisks": [
+        "Potential setTimeout without cleanup",
+        "useEffect without cleanup functions"
+      ]
+    },
+    {
+      "file": "app/onboarding/completion.tsx",
+      "lines": 440,
+      "hooks": 13,
+      "animations": 30,
+      "complexRendering": [],
+      "memoryRisks": [
+        "Potential setTimeout without cleanup"
+      ]
+    },
+    {
+      "file": "app/onboarding/health-integration.tsx",
+      "lines": 469,
+      "hooks": 8,
+      "animations": 11,
+      "complexRendering": [],
+      "memoryRisks": [
+        "useEffect without cleanup functions"
+      ]
+    },
+    {
+      "file": "app/onboarding/notifications.tsx",
+      "lines": 712,
+      "hooks": 9,
+      "animations": 13,
+      "complexRendering": [],
+      "memoryRisks": [
+        "useEffect without cleanup functions"
+      ]
+    },
+    {
+      "file": "app/onboarding/permissions.tsx",
+      "lines": 445,
+      "hooks": 9,
+      "animations": 14,
+      "complexRendering": [],
+      "memoryRisks": [
+        "useEffect without cleanup functions"
+      ]
+    },
+    {
+      "file": "app/onboarding/sleep-goals.tsx",
+      "lines": 570,
+      "hooks": 6,
+      "animations": 9,
+      "complexRendering": [],
+      "memoryRisks": [
+        "useEffect without cleanup functions"
+      ]
+    },
+    {
+      "file": "app/onboarding/welcome.tsx",
+      "lines": 295,
+      "hooks": 15,
+      "animations": 33,
+      "complexRendering": [],
+      "memoryRisks": [
+        "Potential setTimeout without cleanup"
+      ]
+    },
+    {
+      "file": "components/Collapsible.tsx",
+      "lines": 46,
+      "hooks": 1,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "components/ExternalLink.tsx",
+      "lines": 25,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "components/HapticTab.tsx",
+      "lines": 19,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "components/HelloWave.tsx",
+      "lines": 41,
+      "hooks": 3,
+      "animations": 5,
+      "complexRendering": [],
+      "memoryRisks": [
+        "useEffect without cleanup functions"
+      ]
+    },
+    {
+      "file": "components/ParallaxScrollView.tsx",
+      "lines": 83,
+      "hooks": 1,
+      "animations": 6,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "components/ThemedButton.tsx",
+      "lines": 249,
+      "hooks": 0,
+      "animations": 2,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "components/ThemedText.tsx",
+      "lines": 207,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "components/ThemedView.tsx",
+      "lines": 152,
+      "hooks": 0,
+      "animations": 3,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "components/analytics/AnalyticsHeader.tsx",
+      "lines": 110,
+      "hooks": 0,
+      "animations": 2,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "components/analytics/ChartSection.tsx",
+      "lines": 209,
+      "hooks": 2,
+      "animations": 2,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "components/analytics/ChartSelector.tsx",
+      "lines": 164,
+      "hooks": 0,
+      "animations": 2,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "components/analytics/MetricsOverview.tsx",
+      "lines": 145,
+      "hooks": 1,
+      "animations": 4,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "components/analytics/index.ts",
+      "lines": 4,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "components/chat/ChatHeader.tsx",
+      "lines": 113,
+      "hooks": 0,
+      "animations": 2,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "components/chat/ChatInput.tsx",
+      "lines": 243,
+      "hooks": 7,
+      "animations": 11,
+      "complexRendering": [],
+      "memoryRisks": [
+        "useEffect without cleanup functions"
+      ]
+    },
+    {
+      "file": "components/chat/MessagesList.tsx",
+      "lines": 213,
+      "hooks": 7,
+      "animations": 4,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "components/chat/QuickActions.tsx",
+      "lines": 137,
+      "hooks": 2,
+      "animations": 2,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "components/chat/index.ts",
+      "lines": 4,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "components/dashboard/QuickStatsGrid.tsx",
+      "lines": 109,
+      "hooks": 0,
+      "animations": 2,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "components/dashboard/SleepScoreCard.tsx",
+      "lines": 76,
+      "hooks": 0,
+      "animations": 5,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "components/dashboard/TrendSection.tsx",
+      "lines": 99,
+      "hooks": 1,
+      "animations": 2,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "components/dashboard/index.ts",
+      "lines": 3,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "components/examples/SleepDashboardExample.tsx",
+      "lines": 141,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "components/examples/SleepUIShowcase.tsx",
+      "lines": 351,
+      "hooks": 6,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": [
+        "Potential setTimeout without cleanup"
+      ]
+    },
+    {
+      "file": "components/gluestack-ui-config.tsx",
+      "lines": 284,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "components/optimizations/LazyAnimation.tsx",
+      "lines": 275,
+      "hooks": 13,
+      "animations": 11,
+      "complexRendering": [],
+      "memoryRisks": [
+        "Event listeners without cleanup"
+      ]
+    },
+    {
+      "file": "components/optimizations/LazyComponent.tsx",
+      "lines": 302,
+      "hooks": 10,
+      "animations": 6,
+      "complexRendering": [],
+      "memoryRisks": [
+        "Event listeners without cleanup"
+      ]
+    },
+    {
+      "file": "components/optimizations/index.ts",
+      "lines": 9,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "components/providers/LunarThemeProvider.tsx",
+      "lines": 17,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "components/sleep/MetricsCard.tsx",
+      "lines": 364,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "components/sleep/ProgressBar.tsx",
+      "lines": 154,
+      "hooks": 0,
+      "animations": 2,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "components/sleep/SleepCard.tsx",
+      "lines": 192,
+      "hooks": 0,
+      "animations": 2,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "components/sleep/SleepGoalTracker.tsx",
+      "lines": 214,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "components/sleep/SleepPhaseChart.tsx",
+      "lines": 191,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "components/sleep/SleepScore.tsx",
+      "lines": 130,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "components/sleep/TrendChart.tsx",
+      "lines": 286,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "components/ui/ChatBubble.tsx",
+      "lines": 591,
+      "hooks": 3,
+      "animations": 18,
+      "complexRendering": [],
+      "memoryRisks": [
+        "useEffect without cleanup functions"
+      ]
+    },
+    {
+      "file": "components/ui/CircularProgress.tsx",
+      "lines": 193,
+      "hooks": 6,
+      "animations": 11,
+      "complexRendering": [],
+      "memoryRisks": [
+        "useEffect without cleanup functions"
+      ]
+    },
+    {
+      "file": "components/ui/CorrelationChart.tsx",
+      "lines": 512,
+      "hooks": 8,
+      "animations": 17,
+      "complexRendering": [],
+      "memoryRisks": [
+        "useEffect without cleanup functions"
+      ]
+    },
+    {
+      "file": "components/ui/EmptyState.tsx",
+      "lines": 219,
+      "hooks": 0,
+      "animations": 2,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "components/ui/HealthSyncStatus.tsx",
+      "lines": 297,
+      "hooks": 2,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": [
+        "useEffect without cleanup functions"
+      ]
+    },
+    {
+      "file": "components/ui/IconSymbol.ios.tsx",
+      "lines": 33,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "components/ui/IconSymbol.tsx",
+      "lines": 76,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "components/ui/LoadingStates.tsx",
+      "lines": 348,
+      "hooks": 16,
+      "animations": 24,
+      "complexRendering": [],
+      "memoryRisks": [
+        "useEffect without cleanup functions"
+      ]
+    },
+    {
+      "file": "components/ui/MessageReactions.tsx",
+      "lines": 423,
+      "hooks": 3,
+      "animations": 15,
+      "complexRendering": [],
+      "memoryRisks": [
+        "useEffect without cleanup functions"
+      ]
+    },
+    {
+      "file": "components/ui/MetricsCard.tsx",
+      "lines": 336,
+      "hooks": 5,
+      "animations": 13,
+      "complexRendering": [],
+      "memoryRisks": [
+        "useEffect without cleanup functions"
+      ]
+    },
+    {
+      "file": "components/ui/MiniChart.tsx",
+      "lines": 396,
+      "hooks": 12,
+      "animations": 23,
+      "complexRendering": [],
+      "memoryRisks": [
+        "Potential setTimeout without cleanup",
+        "useEffect without cleanup functions"
+      ]
+    },
+    {
+      "file": "components/ui/Modal.tsx",
+      "lines": 198,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "components/ui/OnboardingNavigation.tsx",
+      "lines": 161,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "components/ui/OnboardingProgress.tsx",
+      "lines": 162,
+      "hooks": 7,
+      "animations": 7,
+      "complexRendering": [],
+      "memoryRisks": [
+        "useEffect without cleanup functions"
+      ]
+    },
+    {
+      "file": "components/ui/QuickSuggestions.tsx",
+      "lines": 412,
+      "hooks": 0,
+      "animations": 10,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "components/ui/RangeSlider.tsx",
+      "lines": 227,
+      "hooks": 5,
+      "animations": 4,
+      "complexRendering": [],
+      "memoryRisks": [
+        "useEffect without cleanup functions"
+      ]
+    },
+    {
+      "file": "components/ui/RichContent.tsx",
+      "lines": 723,
+      "hooks": 0,
+      "animations": 23,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "components/ui/SafeContainer.tsx",
+      "lines": 54,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "components/ui/ScrollContainer.tsx",
+      "lines": 69,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "components/ui/SleepCard.tsx",
+      "lines": 197,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "components/ui/SleepGoalProgressCard.tsx",
+      "lines": 494,
+      "hooks": 8,
+      "animations": 23,
+      "complexRendering": [],
+      "memoryRisks": [
+        "useEffect without cleanup functions"
+      ]
+    },
+    {
+      "file": "components/ui/SleepGoalTracker.tsx",
+      "lines": 233,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "components/ui/SleepMessageFormatter.tsx",
+      "lines": 280,
+      "hooks": 0,
+      "animations": 5,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "components/ui/SleepPhaseChart.tsx",
+      "lines": 361,
+      "hooks": 4,
+      "animations": 14,
+      "complexRendering": [],
+      "memoryRisks": [
+        "useEffect without cleanup functions"
+      ]
+    },
+    {
+      "file": "components/ui/SleepProgressBar.tsx",
+      "lines": 94,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "components/ui/SleepScore.tsx",
+      "lines": 263,
+      "hooks": 4,
+      "animations": 12,
+      "complexRendering": [],
+      "memoryRisks": [
+        "useEffect without cleanup functions"
+      ]
+    },
+    {
+      "file": "components/ui/SmartReplies.tsx",
+      "lines": 376,
+      "hooks": 0,
+      "animations": 6,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "components/ui/TabBarBackground.ios.tsx",
+      "lines": 20,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "components/ui/TabBarBackground.tsx",
+      "lines": 7,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "components/ui/ThemedButton.tsx",
+      "lines": 180,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "components/ui/ThemedText.tsx",
+      "lines": 194,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "components/ui/ThemedView.tsx",
+      "lines": 166,
+      "hooks": 0,
+      "animations": 3,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "components/ui/TimePicker.tsx",
+      "lines": 250,
+      "hooks": 4,
+      "animations": 6,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "components/ui/ToggleButton.tsx",
+      "lines": 215,
+      "hooks": 4,
+      "animations": 6,
+      "complexRendering": [],
+      "memoryRisks": [
+        "useEffect without cleanup functions"
+      ]
+    },
+    {
+      "file": "components/ui/TrendChart.tsx",
+      "lines": 335,
+      "hooks": 5,
+      "animations": 10,
+      "complexRendering": [
+        "Multiple map operations detected"
+      ],
+      "memoryRisks": []
+    },
+    {
+      "file": "components/ui/TypingIndicator.tsx",
+      "lines": 317,
+      "hooks": 6,
+      "animations": 27,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "components/ui/VoiceInput.tsx",
+      "lines": 509,
+      "hooks": 7,
+      "animations": 23,
+      "complexRendering": [],
+      "memoryRisks": [
+        "Potential setTimeout without cleanup",
+        "useEffect without cleanup functions"
+      ]
+    },
+    {
+      "file": "components/ui/index.ts",
+      "lines": 145,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "constants/App.ts",
+      "lines": 117,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "constants/Colors.ts",
+      "lines": 204,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "expo-env.d.ts",
+      "lines": 3,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "hooks/useChatOptimization.ts",
+      "lines": 405,
+      "hooks": 27,
+      "animations": 0,
+      "complexRendering": [
+        "Potential redundant mapping with FlatList"
+      ],
+      "memoryRisks": [
+        "Event listeners without cleanup"
+      ]
+    },
+    {
+      "file": "hooks/useColorScheme.ts",
+      "lines": 2,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "hooks/useColorScheme.web.ts",
+      "lines": 22,
+      "hooks": 2,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": [
+        "useEffect without cleanup functions"
+      ]
+    },
+    {
+      "file": "hooks/useThemeColor.ts",
+      "lines": 22,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "lib/adapters/healthKitAdapter.ts",
+      "lines": 502,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "lib/chatAI.ts",
+      "lines": 431,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": [
+        "Potential setTimeout without cleanup"
+      ]
+    },
+    {
+      "file": "lib/chatOptimization.ts",
+      "lines": 456,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [
+        "JSON operations in render path"
+      ],
+      "memoryRisks": []
+    },
+    {
+      "file": "lib/database/aiService.ts",
+      "lines": 603,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [
+        "JSON operations in render path"
+      ],
+      "memoryRisks": []
+    },
+    {
+      "file": "lib/database/dataService.ts",
+      "lines": 765,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [
+        "JSON operations in render path"
+      ],
+      "memoryRisks": []
+    },
+    {
+      "file": "lib/database/database.ts",
+      "lines": 425,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "lib/database/devTools.ts",
+      "lines": 230,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [
+        "JSON operations in render path"
+      ],
+      "memoryRisks": []
+    },
+    {
+      "file": "lib/database/example.ts",
+      "lines": 435,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "lib/database/index.ts",
+      "lines": 271,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "lib/database/onboardingService.ts",
+      "lines": 250,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [
+        "JSON operations in render path"
+      ],
+      "memoryRisks": []
+    },
+    {
+      "file": "lib/database/schema.ts",
+      "lines": 314,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "lib/database/sleepService.ts",
+      "lines": 848,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [
+        "Multiple map operations detected"
+      ],
+      "memoryRisks": []
+    },
+    {
+      "file": "lib/database/types.ts",
+      "lines": 305,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "lib/database/userService.ts",
+      "lines": 855,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [
+        "Multiple map operations detected",
+        "JSON operations in render path"
+      ],
+      "memoryRisks": []
+    },
+    {
+      "file": "lib/health/constants.ts",
+      "lines": 314,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "lib/health/example.ts",
+      "lines": 542,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "lib/health/healthDatabaseIntegration.ts",
+      "lines": 526,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [
+        "Multiple map operations detected"
+      ],
+      "memoryRisks": []
+    },
+    {
+      "file": "lib/health/healthKitService.ts",
+      "lines": 265,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": [
+        "Potential setTimeout without cleanup"
+      ]
+    },
+    {
+      "file": "lib/health/healthService.android.ts",
+      "lines": 855,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [
+        "JSON operations in render path"
+      ],
+      "memoryRisks": [
+        "Potential setTimeout without cleanup"
+      ]
+    },
+    {
+      "file": "lib/health/healthService.ios.ts",
+      "lines": 800,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [
+        "Multiple map operations detected"
+      ],
+      "memoryRisks": [
+        "Potential setTimeout without cleanup"
+      ]
+    },
+    {
+      "file": "lib/health/healthService.web.ts",
+      "lines": 619,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [
+        "JSON operations in render path"
+      ],
+      "memoryRisks": []
+    },
+    {
+      "file": "lib/health/index.ts",
+      "lines": 341,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "lib/health/types.ts",
+      "lines": 348,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "lib/health/utils.ts",
+      "lines": 815,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [
+        "Multiple map operations detected"
+      ],
+      "memoryRisks": []
+    },
+    {
+      "file": "lib/services/aiService.ts",
+      "lines": 198,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": [
+        "Potential setTimeout without cleanup"
+      ]
+    },
+    {
+      "file": "lib/services/analyticsService.ts",
+      "lines": 172,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "lib/services/databaseService.ts",
+      "lines": 402,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "lib/services/healthKitService.ts",
+      "lines": 326,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": [
+        "Potential setTimeout without cleanup"
+      ]
+    },
+    {
+      "file": "lib/services/index.ts",
+      "lines": 21,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "lib/services/sleepService.ts",
+      "lines": 428,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": [
+        "Potential setTimeout without cleanup"
+      ]
+    },
+    {
+      "file": "lib/utils/id.ts",
+      "lines": 78,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "nativewind-env.d.ts",
+      "lines": 77,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "plan/01-gluestack-theme-config.ts",
+      "lines": 289,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "plan/02-component-compositions.tsx",
+      "lines": 541,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "plan/03-styled-components.tsx",
+      "lines": 516,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "plan/05-sleep-visualization-components.tsx",
+      "lines": 548,
+      "hooks": 1,
+      "animations": 0,
+      "complexRendering": [
+        "Multiple map operations detected"
+      ],
+      "memoryRisks": []
+    },
+    {
+      "file": "plan/07-animation-specifications.ts",
+      "lines": 735,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "types/healthKit.ts",
+      "lines": 148,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "types/index.ts",
+      "lines": 52,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "types/sleep.ts",
+      "lines": 87,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    },
+    {
+      "file": "types/user.ts",
+      "lines": 68,
+      "hooks": 0,
+      "animations": 0,
+      "complexRendering": [],
+      "memoryRisks": []
+    }
+  ],
+  "dependencyAnalysis": {
+    "totalDependencies": 41,
+    "heavyDependencies": [
+      "react-native-svg"
+    ],
+    "duplicateFunctionality": []
+  },
+  "animationAnalysis": {},
+  "recommendations": [
+    {
+      "type": "HIGH",
+      "component": "app/(tabs)/analytics-original.tsx",
+      "issue": "Component too large",
+      "description": "1680 lines (max recommended: 500)",
+      "solution": "Split into smaller components or use code splitting"
+    },
+    {
+      "type": "MEDIUM",
+      "component": "app/(tabs)/analytics-original.tsx",
+      "issue": "Too many hooks",
+      "description": "22 hooks detected",
+      "solution": "Consider custom hooks or component splitting"
+    },
+    {
+      "type": "HIGH",
+      "component": "app/(tabs)/chat-optimized.tsx",
+      "issue": "Component too large",
+      "description": "554 lines (max recommended: 500)",
+      "solution": "Split into smaller components or use code splitting"
+    },
+    {
+      "type": "HIGH",
+      "component": "app/(tabs)/chat-original.tsx",
+      "issue": "Component too large",
+      "description": "997 lines (max recommended: 500)",
+      "solution": "Split into smaller components or use code splitting"
+    },
+    {
+      "type": "MEDIUM",
+      "component": "app/(tabs)/chat-original.tsx",
+      "issue": "Too many hooks",
+      "description": "32 hooks detected",
+      "solution": "Consider custom hooks or component splitting"
+    },
+    {
+      "type": "MEDIUM",
+      "component": "app/(tabs)/chat.tsx",
+      "issue": "Too many hooks",
+      "description": "17 hooks detected",
+      "solution": "Consider custom hooks or component splitting"
+    },
+    {
+      "type": "HIGH",
+      "component": "app/(tabs)/index-original.tsx",
+      "issue": "Component too large",
+      "description": "1360 lines (max recommended: 500)",
+      "solution": "Split into smaller components or use code splitting"
+    },
+    {
+      "type": "MEDIUM",
+      "component": "app/(tabs)/index-original.tsx",
+      "issue": "Too many hooks",
+      "description": "14 hooks detected",
+      "solution": "Consider custom hooks or component splitting"
+    },
+    {
+      "type": "HIGH",
+      "component": "app/onboarding/ai-chat.tsx",
+      "issue": "Component too large",
+      "description": "519 lines (max recommended: 500)",
+      "solution": "Split into smaller components or use code splitting"
+    },
+    {
+      "type": "MEDIUM",
+      "component": "app/onboarding/ai-chat.tsx",
+      "issue": "Too many hooks",
+      "description": "12 hooks detected",
+      "solution": "Consider custom hooks or component splitting"
+    },
+    {
+      "type": "HIGH",
+      "component": "app/onboarding/chronotype.tsx",
+      "issue": "Component too large",
+      "description": "645 lines (max recommended: 500)",
+      "solution": "Split into smaller components or use code splitting"
+    },
+    {
+      "type": "MEDIUM",
+      "component": "app/onboarding/chronotype.tsx",
+      "issue": "Too many hooks",
+      "description": "14 hooks detected",
+      "solution": "Consider custom hooks or component splitting"
+    },
+    {
+      "type": "MEDIUM",
+      "component": "app/onboarding/completion.tsx",
+      "issue": "Too many hooks",
+      "description": "13 hooks detected",
+      "solution": "Consider custom hooks or component splitting"
+    },
+    {
+      "type": "HIGH",
+      "component": "app/onboarding/notifications.tsx",
+      "issue": "Component too large",
+      "description": "712 lines (max recommended: 500)",
+      "solution": "Split into smaller components or use code splitting"
+    },
+    {
+      "type": "HIGH",
+      "component": "app/onboarding/sleep-goals.tsx",
+      "issue": "Component too large",
+      "description": "570 lines (max recommended: 500)",
+      "solution": "Split into smaller components or use code splitting"
+    },
+    {
+      "type": "MEDIUM",
+      "component": "app/onboarding/welcome.tsx",
+      "issue": "Too many hooks",
+      "description": "15 hooks detected",
+      "solution": "Consider custom hooks or component splitting"
+    },
+    {
+      "type": "MEDIUM",
+      "component": "components/optimizations/LazyAnimation.tsx",
+      "issue": "Too many hooks",
+      "description": "13 hooks detected",
+      "solution": "Consider custom hooks or component splitting"
+    },
+    {
+      "type": "HIGH",
+      "component": "components/ui/ChatBubble.tsx",
+      "issue": "Component too large",
+      "description": "591 lines (max recommended: 500)",
+      "solution": "Split into smaller components or use code splitting"
+    },
+    {
+      "type": "HIGH",
+      "component": "components/ui/CorrelationChart.tsx",
+      "issue": "Component too large",
+      "description": "512 lines (max recommended: 500)",
+      "solution": "Split into smaller components or use code splitting"
+    },
+    {
+      "type": "MEDIUM",
+      "component": "components/ui/LoadingStates.tsx",
+      "issue": "Too many hooks",
+      "description": "16 hooks detected",
+      "solution": "Consider custom hooks or component splitting"
+    },
+    {
+      "type": "MEDIUM",
+      "component": "components/ui/MiniChart.tsx",
+      "issue": "Too many hooks",
+      "description": "12 hooks detected",
+      "solution": "Consider custom hooks or component splitting"
+    },
+    {
+      "type": "HIGH",
+      "component": "components/ui/RichContent.tsx",
+      "issue": "Component too large",
+      "description": "723 lines (max recommended: 500)",
+      "solution": "Split into smaller components or use code splitting"
+    },
+    {
+      "type": "HIGH",
+      "component": "components/ui/VoiceInput.tsx",
+      "issue": "Component too large",
+      "description": "509 lines (max recommended: 500)",
+      "solution": "Split into smaller components or use code splitting"
+    },
+    {
+      "type": "MEDIUM",
+      "component": "hooks/useChatOptimization.ts",
+      "issue": "Too many hooks",
+      "description": "27 hooks detected",
+      "solution": "Consider custom hooks or component splitting"
+    },
+    {
+      "type": "HIGH",
+      "component": "lib/adapters/healthKitAdapter.ts",
+      "issue": "Component too large",
+      "description": "502 lines (max recommended: 500)",
+      "solution": "Split into smaller components or use code splitting"
+    },
+    {
+      "type": "HIGH",
+      "component": "lib/database/aiService.ts",
+      "issue": "Component too large",
+      "description": "603 lines (max recommended: 500)",
+      "solution": "Split into smaller components or use code splitting"
+    },
+    {
+      "type": "HIGH",
+      "component": "lib/database/dataService.ts",
+      "issue": "Component too large",
+      "description": "765 lines (max recommended: 500)",
+      "solution": "Split into smaller components or use code splitting"
+    },
+    {
+      "type": "HIGH",
+      "component": "lib/database/sleepService.ts",
+      "issue": "Component too large",
+      "description": "848 lines (max recommended: 500)",
+      "solution": "Split into smaller components or use code splitting"
+    },
+    {
+      "type": "HIGH",
+      "component": "lib/database/userService.ts",
+      "issue": "Component too large",
+      "description": "855 lines (max recommended: 500)",
+      "solution": "Split into smaller components or use code splitting"
+    },
+    {
+      "type": "HIGH",
+      "component": "lib/health/example.ts",
+      "issue": "Component too large",
+      "description": "542 lines (max recommended: 500)",
+      "solution": "Split into smaller components or use code splitting"
+    },
+    {
+      "type": "HIGH",
+      "component": "lib/health/healthDatabaseIntegration.ts",
+      "issue": "Component too large",
+      "description": "526 lines (max recommended: 500)",
+      "solution": "Split into smaller components or use code splitting"
+    },
+    {
+      "type": "HIGH",
+      "component": "lib/health/healthService.android.ts",
+      "issue": "Component too large",
+      "description": "855 lines (max recommended: 500)",
+      "solution": "Split into smaller components or use code splitting"
+    },
+    {
+      "type": "HIGH",
+      "component": "lib/health/healthService.ios.ts",
+      "issue": "Component too large",
+      "description": "800 lines (max recommended: 500)",
+      "solution": "Split into smaller components or use code splitting"
+    },
+    {
+      "type": "HIGH",
+      "component": "lib/health/healthService.web.ts",
+      "issue": "Component too large",
+      "description": "619 lines (max recommended: 500)",
+      "solution": "Split into smaller components or use code splitting"
+    },
+    {
+      "type": "HIGH",
+      "component": "lib/health/utils.ts",
+      "issue": "Component too large",
+      "description": "815 lines (max recommended: 500)",
+      "solution": "Split into smaller components or use code splitting"
+    },
+    {
+      "type": "HIGH",
+      "component": "plan/02-component-compositions.tsx",
+      "issue": "Component too large",
+      "description": "541 lines (max recommended: 500)",
+      "solution": "Split into smaller components or use code splitting"
+    },
+    {
+      "type": "HIGH",
+      "component": "plan/03-styled-components.tsx",
+      "issue": "Component too large",
+      "description": "516 lines (max recommended: 500)",
+      "solution": "Split into smaller components or use code splitting"
+    },
+    {
+      "type": "HIGH",
+      "component": "plan/05-sleep-visualization-components.tsx",
+      "issue": "Component too large",
+      "description": "548 lines (max recommended: 500)",
+      "solution": "Split into smaller components or use code splitting"
+    },
+    {
+      "type": "HIGH",
+      "component": "plan/07-animation-specifications.ts",
+      "issue": "Component too large",
+      "description": "735 lines (max recommended: 500)",
+      "solution": "Split into smaller components or use code splitting"
+    }
+  ],
+  "performanceScore": 0,
+  "summary": {
+    "totalComponents": 147,
+    "highPriorityIssues": 27,
+    "performanceGrade": "F",
+    "topIssues": [
+      "Component too large",
+      "Component too large",
+      "Component too large"
+    ]
+  }
+}

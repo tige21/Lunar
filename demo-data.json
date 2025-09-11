@@ -1,0 +1,76 @@
+{
+  "name": "Demo User",
+  "email": "demo@lunar.app",
+  "demographics": {
+    "age": 28,
+    "timezone": "America/New_York",
+    "occupation": "Software Developer"
+  },
+  "sleepGoals": {
+    "duration": 8,
+    "bedtime": "22:30",
+    "wakeTime": "06:30",
+    "qualityGoal": 4,
+    "sleepEnvironment": {
+      "darkRoom": true,
+      "coolTemperature": true,
+      "quietSpace": false,
+      "comfortableBed": true
+    },
+    "priorities": [
+      "quality",
+      "consistency",
+      "energy"
+    ]
+  },
+  "chronotype": {
+    "score": 16,
+    "type": "morning",
+    "label": "Morning Type",
+    "description": "You prefer mornings and are most productive in the first half of the day.",
+    "recommendations": [
+      "Maintain a consistent early bedtime",
+      "Exercise in the morning",
+      "Plan demanding work for morning hours",
+      "Wind down 2 hours before bed"
+    ],
+    "responses": {
+      "bedtime_preference": "early",
+      "wake_preference": "early",
+      "peak_energy": "early_morning",
+      "meal_timing": "breakfast"
+    }
+  },
+  "notificationSettings": {
+    "bedtimeReminder": {
+      "enabled": true,
+      "time": "21:30",
+      "advanceMinutes": 30
+    },
+    "wakeUpAlarm": {
+      "enabled": true,
+      "time": "07:00",
+      "smartWake": true
+    },
+    "sleepTracking": {
+      "enabled": true,
+      "autoDetect": true
+    },
+    "insights": {
+      "enabled": true,
+      "frequency": "weekly"
+    },
+    "permissions": {
+      "granted": true,
+      "requestedAt": "2025-09-09T17:55:19.673Z"
+    }
+  },
+  "preferences": {
+    "notificationsEnabled": true,
+    "reminderTime": "21:30",
+    "units": "metric",
+    "theme": "auto",
+    "privacyMode": true,
+    "aiChatIntroduced": true
+  }
+}

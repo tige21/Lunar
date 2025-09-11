@@ -14,10 +14,55 @@ type IconSymbolName = keyof typeof MAPPING;
  * - see SF Symbols in the [SF Symbols](https://developer.apple.com/sf-symbols/) app.
  */
 const MAPPING = {
+  // Original mappings
   'house.fill': 'home',
   'paperplane.fill': 'send',
   'chevron.left.forwardslash.chevron.right': 'code',
   'chevron.right': 'chevron-right',
+  
+  // Sleep and moon icons
+  'moon.stars.fill': 'bedtime',
+  'moon.fill': 'nightlight',
+  'moon.zzz.fill': 'hotel',
+  
+  // User and profile
+  'person.circle.fill': 'account-circle',
+  
+  // Status and feedback
+  'exclamationmark.triangle.fill': 'warning',
+  'arrow.up.right': 'trending-up',
+  'flame.fill': 'local-fire-department',
+  
+  // Charts and data
+  'chart.bar.doc.horizontal': 'assessment',
+  'chart.line.uptrend.xyaxis': 'trending-up',
+  
+  // Communication
+  'message.fill': 'message',
+  'message.badge.fill': 'chat',
+  'bubble.left.fill': 'chat-bubble',
+  'bubble.right.fill': 'chat-bubble-outline',
+  
+  // Time and tracking
+  'timer': 'timer',
+  'clock.fill': 'access-time',
+  'eye.slash.fill': 'visibility-off',
+  
+  // Tab bar icons
+  'chart.bar.fill': 'bar-chart',
+  'star.fill': 'star',
+  'gear': 'settings',
+  
+  // Health and fitness icons
+  'heart.fill': 'favorite',
+  'figure.walk': 'directions-walk',
+  'activity': 'fitness-center',
+  'waveform.path.ecg': 'monitor-heart',
+  
+  // Permission and security icons
+  'lock.shield': 'security',
+  'checkmark.shield.fill': 'verified-user',
+  'hand.raised.fill': 'pan-tool',
 } as IconMapping;
 
 /**

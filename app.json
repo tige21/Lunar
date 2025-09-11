@@ -1,22 +1,34 @@
 {
   "expo": {
-    "name": "Lunar",
-    "slug": "Lunar",
+    "name": "Lunar Sleep Tracker",
+    "slug": "lunar-sleep",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "lunar",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "privacy": "public",
+    "platforms": ["ios", "android", "web"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.lunar.sleep",
+      "infoPlist": {
+        "NSHealthShareUsageDescription": "This app needs access to your health data to analyze your sleep patterns and provide personalized insights.",
+        "NSHealthUpdateUsageDescription": "This app needs to write sleep data to your Health app for comprehensive tracking."
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#1a1a2e"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.lunar.sleep",
+      "permissions": [
+        "BODY_SENSORS",
+        "ACTIVITY_RECOGNITION"
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -25,13 +37,16 @@
     },
     "plugins": [
       "expo-router",
+      "expo-sqlite",
+      "expo-secure-store",
+      "expo-localization",
       [
         "expo-splash-screen",
         {
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
+          "backgroundColor": "#1a1a2e"
         }
       ]
     ],

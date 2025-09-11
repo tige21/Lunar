@@ -1,75 +1,210 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import React, { memo, useCallback, useEffect, useState } from 'react';
+import { RefreshControl, ScrollView, StyleSheet } from 'react-native';
+import Animated, { FadeInDown } from 'react-native-reanimated';
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
+// UI Components
+import { QuickStatsGrid, SleepScoreCard, TrendSection } from '@/components/dashboard';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { HealthSyncStatus } from '@/components/ui/HealthSyncStatus';
+import { SafeContainer } from '@/components/ui/SafeContainer';
 
-export default function HomeScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
-  );
+// Hooks and Utils
+import { useThemeColor } from '@/hooks/useThemeColor';
+
+// Services
+import { analyticsService } from '@/lib/services';
+import sleepService, { type SleepData } from '@/lib/services/sleepService';
+
+// Types
+interface DashboardState {
+  isLoading: boolean;
+  sleepData: SleepData | null;
+  error: string | null;
 }
 
+// Memoized loading state component
+const LoadingState = memo(() => (
+  <Animated.View 
+    entering={FadeInDown.springify()}
+    style={styles.loadingContainer}
+  >
+    <ThemedText type="subtitle">Loading your sleep data...</ThemedText>
+  </Animated.View>
+));
+
+LoadingState.displayName = 'LoadingState';
+
+// Memoized error state component  
+const ErrorState = memo(({ error, onRetry }: { error: string; onRetry: () => void }) => (
+  <Animated.View 
+    entering={FadeInDown.springify()}
+    style={styles.errorContainer}
+  >
+    <ThemedText type="subtitle" style={{ color: '#EF4444', marginBottom: 12 }}>
+      {error}
+    </ThemedText>
+    <ThemedText onPress={onRetry} style={styles.retryText}>
+      Tap to retry
+    </ThemedText>
+  </Animated.View>
+));
+
+ErrorState.displayName = 'ErrorState';
+
+const DashboardScreen = memo(() => {
+  const [state, setState] = useState<DashboardState>({
+    isLoading: true,
+    sleepData: null,
+    error: null
+  });
+  const [refreshing, setRefreshing] = useState(false);
+
+  const backgroundColor = useThemeColor({}, 'background');
+
+  // Optimized data loading with proper cleanup
+  const loadSleepData = useCallback(async () => {
+    try {
+      setState(prev => ({ ...prev, isLoading: true, error: null }));
+      
+      sleepService.clearCache();
+      const data = await sleepService.getCurrentSleepData();
+      
+      setState({
+        isLoading: false,
+        sleepData: data,
+        error: data ? null : 'No sleep data available'
+      });
+    } catch (error) {
+      console.error('Failed to load sleep data:', error);
+      setState({
+        isLoading: false,
+        sleepData: null,
+        error: 'Failed to load sleep data'
+      });
+    }
+  }, []);
+
+  // Debounced refresh handler
+  const handleRefresh = useCallback(async () => {
+    setRefreshing(true);
+    await loadSleepData();
+    setRefreshing(false);
+  }, [loadSleepData]);
+
+  useEffect(() => {
+    loadSleepData();
+    analyticsService.trackScreen('dashboard');
+  }, [loadSleepData]);
+
+  // Helper function to get sleep quality text
+  const getSleepQuality = useCallback((score: number) => {
+    if (score >= 80) return 'Excellent';
+    if (score >= 70) return 'Good';
+    if (score >= 60) return 'Fair';
+    return 'Poor';
+  }, []);
+
+  return (
+    <SafeContainer>
+      <ScrollView
+        style={[styles.container, { backgroundColor }]}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={handleRefresh}
+            tintColor={useThemeColor({}, 'tint')}
+          />
+        }
+        showsVerticalScrollIndicator={false}
+      >
+        {/* Header */}
+        <Animated.View entering={FadeInDown.springify()}>
+          <ThemedView style={styles.header}>
+            <ThemedText type="title">Good morning! 🌅</ThemedText>
+            <ThemedText style={styles.subtitle}>
+              Here&apos;s how you slept last night
+            </ThemedText>
+          </ThemedView>
+        </Animated.View>
+
+        {/* Health Sync Status */}
+        <HealthSyncStatus />
+
+        {/* Content */}
+        {state.isLoading && <LoadingState />}
+        
+        {state.error && !state.sleepData && (
+          <ErrorState error={state.error} onRetry={loadSleepData} />
+        )}
+
+        {state.sleepData && (
+          <ThemedView style={styles.content}>
+            {/* Sleep Score Card */}
+            <SleepScoreCard
+              score={state.sleepData.score}
+              quality={getSleepQuality(state.sleepData.score)}
+              delay={200}
+            />
+
+            {/* Quick Stats Grid */}
+            <QuickStatsGrid
+              sleepData={state.sleepData}
+              delay={400}
+            />
+
+            {/* Trend Section */}
+            <TrendSection
+              sleepData={state.sleepData}
+              delay={600}
+            />
+          </ThemedView>
+        )}
+
+        <ThemedView style={styles.bottomPadding} />
+      </ScrollView>
+    </SafeContainer>
+  );
+});
+
+DashboardScreen.displayName = 'DashboardScreen';
+
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
+  container: {
+    flex: 1,
+  },
+  header: {
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    paddingBottom: 16,
+    backgroundColor: 'transparent',
+  },
+  subtitle: {
+    opacity: 0.7,
+    marginTop: 4,
+  },
+  content: {
+    paddingHorizontal: 20,
+    backgroundColor: 'transparent',
+  },
+  loadingContainer: {
+    padding: 40,
     alignItems: 'center',
-    gap: 8,
+    justifyContent: 'center',
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  errorContainer: {
+    padding: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  retryText: {
+    color: '#3B82F6',
+    fontWeight: '600',
+  },
+  bottomPadding: {
+    height: 32,
+    backgroundColor: 'transparent',
   },
 });
+
+export default DashboardScreen;
