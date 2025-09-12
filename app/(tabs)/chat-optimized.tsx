@@ -23,6 +23,7 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { ChatBubble } from '@/components/ui/ChatBubble';
 import { IconSymbol } from '@/components/ui/IconSymbol';
+import { LanguageSwitcher } from '@/components/ui/LanguageSwitcher';
 import { QuickSuggestions } from '@/components/ui/QuickSuggestions';
 import { SmartReplies, generateSmartReplies } from '@/components/ui/SmartReplies';
 import { TypingIndicator } from '@/components/ui/TypingIndicator';
@@ -58,9 +59,11 @@ export default function OptimizedChatScreen() {
     isOffline,
     hasMoreMessages,
     isLoadingMore,
+    currentLanguage,
     sendMessage,
     retryMessage,
     loadMoreMessages,
+    switchLanguage,
     handleScroll,
     handleScrollBegin,
     handleScrollEnd,
@@ -342,6 +345,13 @@ export default function OptimizedChatScreen() {
             </ThemedText>
           </ThemedView>
         )}
+
+        {/* Language Switcher */}
+        <LanguageSwitcher
+          currentLanguage={currentLanguage}
+          onLanguageChange={switchLanguage}
+          style={styles.languageSwitcher}
+        />
         
         <ThemedView style={styles.inputWrapper}>
           {/* Enhanced input container */}
@@ -501,6 +511,10 @@ const styles = StyleSheet.create({
   offlineText: {
     fontSize: 13,
     fontWeight: '500',
+  },
+  languageSwitcher: {
+    alignSelf: 'center',
+    marginBottom: 12,
   },
   inputWrapper: {
     flexDirection: 'row',

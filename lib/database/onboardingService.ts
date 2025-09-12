@@ -78,6 +78,7 @@ export interface UserPreferences {
   chronotype?: ChronotypeResults;
   notificationSettings?: NotificationSettings;
   aiChatIntroduced?: boolean;
+  language?: 'en' | 'ru';
 }
 
 class OnboardingService {

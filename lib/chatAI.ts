@@ -1,7 +1,12 @@
 /**
  * AI Chat Service for Lunar Sleep App
- * Provides context-aware responses based on user sleep data and patterns
+ * Provides context-aware responses using DeepSeek API with multilingual support
+ * Maintains backward compatibility while adding real AI capabilities
  */
+
+import { multilingualDeepSeekService, type MultilingualChatMessage } from './multilingualDeepSeekService';
+import { userContextManager } from './userContextManager';
+import { languageDetector, type SupportedLanguage } from './languageDetection';
 
 export interface SleepData {
   date: string;
@@ -34,6 +39,8 @@ export interface ChatContext {
 export class SleepAIService {
   private static instance: SleepAIService;
   private context: ChatContext = {};
+  private useRealAI: boolean = true;
+  private conversationHistory: MultilingualChatMessage[] = [];
 
   static getInstance(): SleepAIService {
     if (!SleepAIService.instance) {
@@ -46,10 +53,15 @@ export class SleepAIService {
     this.context = { ...this.context, ...context };
   }
 
-  async generateResponse(userMessage: string): Promise<{
+  async generateResponse(userMessage: string, options?: {
+    forceLanguage?: SupportedLanguage;
+    useFallback?: boolean;
+  }): Promise<{
     text: string;
     type: 'insight' | 'recommendation' | 'question' | 'text';
     confidence: number; // 0-1
+    language?: SupportedLanguage;
+    cached?: boolean;
     richContent?: {
       type: 'sleep_score' | 'sleep_trend' | 'sleep_phases' | 'bedtime_recommendation' | 'environment_tip' | 'progress_tracker' | 'sleep_comparison';
       data: any;
@@ -59,6 +71,60 @@ export class SleepAIService {
         timestamp?: Date;
       };
     };
+  }> {
+    try {
+      // Try real AI first
+      if (this.useRealAI && !options?.useFallback) {
+        const aiResponse = await this.generateAIResponse(userMessage, options);
+        
+        // Add to conversation history
+        this.conversationHistory.push(aiResponse);
+        
+        return {
+          text: aiResponse.text,
+          type: aiResponse.type,
+          confidence: aiResponse.confidence || 0.9,
+          language: aiResponse.language,
+          cached: aiResponse.cached,
+        };
+      }
+    } catch (error) {
+      console.warn('Real AI failed, falling back to mock:', error);
+      // Continue to fallback
+    }
+
+    // Fallback to original mock implementation
+    return this.generateMockResponse(userMessage);
+  }
+
+  /**
+   * Generate response using real AI (DeepSeek)
+   */
+  private async generateAIResponse(userMessage: string, options?: {
+    forceLanguage?: SupportedLanguage;
+  }): Promise<MultilingualChatMessage> {
+    // Prepare conversation history for context
+    const historyContext = this.conversationHistory.slice(-4).map(msg => ({
+      text: msg.text,
+      language: msg.language,
+    }));
+
+    // Generate response using multilingual service
+    const response = await multilingualDeepSeekService.generateResponse(userMessage, {
+      conversationHistory: historyContext,
+      forceLanguage: options?.forceLanguage,
+    });
+
+    return response;
+  }
+
+  /**
+   * Generate mock response (original implementation as fallback)
+   */
+  private async generateMockResponse(userMessage: string): Promise<{
+    text: string;
+    type: 'insight' | 'recommendation' | 'question' | 'text';
+    confidence: number;
   }> {
     const normalizedMessage = userMessage.toLowerCase().trim();
     
@@ -395,6 +461,86 @@ export class SleepAIService {
     ];
 
     return responses[Math.floor(Math.random() * responses.length)];
+  }
+
+  /**
+   * Switch language preference
+   */
+  async setLanguage(language: SupportedLanguage): Promise<void> {
+    await multilingualDeepSeekService.switchLanguage(language);
+    await userContextManager.setLanguagePreference(language);
+  }
+
+  /**
+   * Get current conversation language
+   */
+  getCurrentLanguage(): SupportedLanguage {
+    return languageDetector.getConversationLanguage();
+  }
+
+  /**
+   * Enable or disable real AI
+   */
+  setAIMode(useRealAI: boolean): void {
+    this.useRealAI = useRealAI;
+  }
+
+  /**
+   * Clear conversation history
+   */
+  clearHistory(): void {
+    this.conversationHistory = [];
+    multilingualDeepSeekService.clearAllData();
+  }
+
+  /**
+   * Get conversation statistics
+   */
+  getConversationStats(): {
+    messageCount: number;
+    primaryLanguage: SupportedLanguage;
+    languageSwitches: number;
+    usingRealAI: boolean;
+  } {
+    const stats = multilingualDeepSeekService.getConversationSummary();
+    return {
+      ...stats,
+      usingRealAI: this.useRealAI,
+    };
+  }
+
+  /**
+   * Get AI service health status
+   */
+  async getHealthStatus(): Promise<{
+    aiServiceHealthy: boolean;
+    userContextLoaded: boolean;
+    languageDetectionWorking: boolean;
+    lastError?: string;
+  }> {
+    try {
+      const healthStatus = await multilingualDeepSeekService.getHealthStatus();
+      return {
+        aiServiceHealthy: healthStatus.deepseekConnectivity,
+        userContextLoaded: healthStatus.userContextLoaded,
+        languageDetectionWorking: healthStatus.languageDetectionWorking,
+        lastError: healthStatus.lastError,
+      };
+    } catch (error) {
+      return {
+        aiServiceHealthy: false,
+        userContextLoaded: false,
+        languageDetectionWorking: false,
+        lastError: error.message,
+      };
+    }
+  }
+
+  /**
+   * Force refresh user context (useful after onboarding changes)
+   */
+  async refreshUserContext(): Promise<void> {
+    await userContextManager.refreshContext();
   }
 }
 

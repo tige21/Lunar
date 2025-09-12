@@ -12,6 +12,8 @@ import {
   throttle,
   type ChatMessage
 } from '@/lib/chatOptimization';
+import { sleepAI } from '@/lib/chatAI';
+import type { SupportedLanguage } from '@/lib/languageDetection';
 import NetInfo from '@react-native-community/netinfo';
 import * as Haptics from 'expo-haptics';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -31,16 +33,22 @@ interface UseChatOptimizationReturn {
   isOffline: boolean;
   hasMoreMessages: boolean;
   isLoadingMore: boolean;
+  currentLanguage: SupportedLanguage;
   
   // Actions
   sendMessage: (text: string, retryId?: string) => Promise<void>;
   retryMessage: (messageId: string) => void;
   loadMoreMessages: () => Promise<void>;
   clearHistory: () => Promise<void>;
+  switchLanguage: (language: SupportedLanguage) => Promise<void>;
   
   // Performance
   getPerformanceReport: () => any;
   getMemoryUsage: () => number;
+  
+  // AI Status
+  getAIHealthStatus: () => Promise<any>;
+  getConversationStats: () => any;
   
   // UI Helpers
   handleScroll: (event: any) => void;
@@ -374,6 +382,43 @@ export function useChatOptimization({
     };
   }, []);
   
+  // Language management
+  const [currentLanguage, setCurrentLanguage] = useState<SupportedLanguage>('en');
+  
+  // Update current language from sleepAI
+  useEffect(() => {
+    const updateLanguage = () => {
+      const lang = sleepAI.getCurrentLanguage();
+      setCurrentLanguage(lang);
+    };
+    
+    updateLanguage();
+    // Update periodically in case language changes elsewhere
+    const interval = setInterval(updateLanguage, 2000);
+    
+    return () => clearInterval(interval);
+  }, []);
+
+  // Language switching function
+  const switchLanguage = useCallback(async (language: SupportedLanguage) => {
+    try {
+      await sleepAI.setLanguage(language);
+      setCurrentLanguage(language);
+    } catch (error) {
+      console.error('Failed to switch language:', error);
+    }
+  }, []);
+
+  // AI health status
+  const getAIHealthStatus = useCallback(async () => {
+    return sleepAI.getHealthStatus();
+  }, []);
+
+  // Conversation statistics
+  const getConversationStats = useCallback(() => {
+    return sleepAI.getConversationStats();
+  }, []);
+
   // Memoized messages for performance
   const memoizedMessages = useMemo(() => messages, [messages]);
   
@@ -385,16 +430,22 @@ export function useChatOptimization({
     isOffline,
     hasMoreMessages,
     isLoadingMore,
+    currentLanguage,
     
     // Actions
     sendMessage,
     retryMessage,
     loadMoreMessages,
     clearHistory,
+    switchLanguage,
     
     // Performance
     getPerformanceReport,
     getMemoryUsage,
+    
+    // AI Status
+    getAIHealthStatus,
+    getConversationStats,
     
     // UI Helpers
     handleScroll,
