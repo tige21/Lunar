@@ -1,0 +1,42 @@
+export const TRANSLATIONS = {
+  en: {
+    title: "Why Choose Lunar?",
+    subtitle: "Discover what makes our sleep analysis different",
+    benefit1Title: "100% Free Forever",
+    benefit1Desc: "No premium plans, no hidden costs. Full access to all features, always.",
+    benefit2Title: "Privacy First",
+    benefit2Desc: "Your sleep data stays on your device. No cloud storage, no data sharing.",
+    benefit3Title: "AI Sleep Analysis",
+    benefit3Desc: "Advanced algorithms provide personalized insights to improve your sleep quality.",
+    benefit4Title: "Detailed Analytics",
+    benefit4Desc: "Track sleep stages, patterns, and trends with comprehensive visualizations.",
+    benefit5Title: "Goal Tracking",
+    benefit5Desc: "Set personalized sleep goals and monitor your progress over time.",
+    benefit6Title: "Smart Recommendations",
+    benefit6Desc: "Receive tailored suggestions to optimize your sleep routine and environment.",
+    trustTitle: "Built for Sleep Science",
+    trustIndicator1: "Research-backed algorithms",
+    trustIndicator2: "Sleep specialist designed",
+    continue: "Continue"
+  },
+  ru: {
+    title: "Почему стоит выбрать Lunar?",
+    subtitle: "Узнайте, что делает наш анализ сна особенным",
+    benefit1Title: "100% бесплатно навсегда",
+    benefit1Desc: "Никаких премиум-планов, никаких скрытых расходов. Полный доступ ко всем функциям всегда.",
+    benefit2Title: "Приватность прежде всего",
+    benefit2Desc: "Данные о сне остаются на вашем устройстве. Никакого облачного хранения, никакой передачи данных.",
+    benefit3Title: "ИИ-анализ сна",
+    benefit3Desc: "Продвинутые алгоритмы предоставляют персональные рекомендации для улучшения качества сна.",
+    benefit4Title: "Подробная аналитика",
+    benefit4Desc: "Отслеживайте фазы сна, паттерны и тренды с помощью подробных визуализаций.",
+    benefit5Title: "Отслеживание целей",
+    benefit5Desc: "Устанавливайте персональные цели сна и отслеживайте прогресс со временем.",
+    benefit6Title: "Умные рекомендации",
+    benefit6Desc: "Получайте персональные советы для оптимизации режима сна и окружающей среды.",
+    trustTitle: "Создано для науки о сне",
+    trustIndicator1: "Алгоритмы на основе исследований",
+    trustIndicator2: "Разработано специалистами по сну",
+    continue: "Продолжить"
+  }
+};

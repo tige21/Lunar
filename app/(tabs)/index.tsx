@@ -1,5 +1,6 @@
+import { router } from 'expo-router';
 import React, { memo, useCallback, useEffect, useState } from 'react';
-import { RefreshControl, ScrollView, StyleSheet } from 'react-native';
+import { RefreshControl, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 
 // UI Components
@@ -7,6 +8,7 @@ import { QuickStatsGrid, SleepScoreCard, TrendSection } from '@/components/dashb
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { HealthSyncStatus } from '@/components/ui/HealthSyncStatus';
+import { IconSymbol } from '@/components/ui/IconSymbol';
 import { SafeContainer } from '@/components/ui/SafeContainer';
 
 // Hooks and Utils
@@ -121,10 +123,30 @@ const DashboardScreen = memo(() => {
         {/* Header */}
         <Animated.View entering={FadeInDown.springify()}>
           <ThemedView style={styles.header}>
-            <ThemedText type="title">Good morning! 🌅</ThemedText>
-            <ThemedText style={styles.subtitle}>
-              Here&apos;s how you slept last night
-            </ThemedText>
+            <ThemedView style={styles.headerTop}>
+              <ThemedView>
+                <ThemedText type="title">Good morning! 🌅</ThemedText>
+                <ThemedText style={styles.subtitle}>
+                  Here&apos;s how you slept last night
+                </ThemedText>
+              </ThemedView>
+              
+              {/* Chat Button */}
+              <TouchableOpacity
+                style={[
+                  styles.chatButton,
+                  { backgroundColor: useThemeColor({}, 'tint') }
+                ]}
+                onPress={() => router.push('/chat')}
+                activeOpacity={0.8}
+              >
+                <IconSymbol
+                  size={24}
+                  color="#FFFFFF"
+                  name="message.fill"
+                />
+              </TouchableOpacity>
+            </ThemedView>
           </ThemedView>
         </Animated.View>
 
@@ -178,6 +200,24 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     paddingBottom: 16,
     backgroundColor: 'transparent',
+  },
+  headerTop: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    backgroundColor: 'transparent',
+  },
+  chatButton: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   subtitle: {
     opacity: 0.7,

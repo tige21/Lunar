@@ -118,7 +118,7 @@ export class AIService {
     await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 2000));
 
     return {
-      id: Date.now().toString(),
+      id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
       role: 'assistant',
       content: responses[Math.floor(Math.random() * responses.length)],
       timestamp: new Date(),

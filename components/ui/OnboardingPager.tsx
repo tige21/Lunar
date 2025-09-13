@@ -1,22 +1,22 @@
-import React, { useRef, useState, useCallback, useEffect } from 'react';
-import { StyleSheet, Dimensions, Platform } from 'react-native';
-import PagerView from 'react-native-pager-view';
-import { router } from 'expo-router';
-import * as Haptics from 'expo-haptics';
+import * as Haptics from "expo-haptics";
+import { router } from "expo-router";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { Dimensions, Platform, StyleSheet } from "react-native";
+import PagerView from "react-native-pager-view";
 import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withTiming,
-  withSpring,
-  interpolate,
   Extrapolate,
+  interpolate,
   runOnJS,
-} from 'react-native-reanimated';
-import { ThemedView } from '../ThemedView';
-import OnboardingNavigation from './OnboardingNavigation';
-import { SwipeableProgress } from './SwipeableProgress';
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+  withTiming,
+} from "react-native-reanimated";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { ThemedView } from "../ThemedView";
+import OnboardingNavigation from "./OnboardingNavigation";
 
-const { width } = Dimensions.get('window');
+const { width } = Dimensions.get("window");
 
 export interface OnboardingPagerProps {
   children: React.ReactNode[];
@@ -24,13 +24,17 @@ export interface OnboardingPagerProps {
   onComplete?: () => void;
 }
 
-export function OnboardingPager({ children, totalSteps, onComplete }: OnboardingPagerProps) {
+export function OnboardingPager({
+  children,
+  totalSteps,
+  onComplete,
+}: OnboardingPagerProps) {
   const pagerRef = useRef<PagerView>(null);
   const [currentPage, setCurrentPage] = useState(0);
   const animatedPosition = useSharedValue(0);
   const containerScale = useSharedValue(1);
   const containerOpacity = useSharedValue(1);
-  
+
   useEffect(() => {
     // Initial entrance animation
     containerScale.value = withSpring(1, {
@@ -42,50 +46,60 @@ export function OnboardingPager({ children, totalSteps, onComplete }: Onboarding
 
   const triggerPageChangeAnimation = useCallback(() => {
     // Subtle scale animation on page change
-    containerScale.value = withSpring(0.98, {
-      damping: 20,
-      stiffness: 300,
-    }, (finished) => {
-      if (finished) {
-        containerScale.value = withSpring(1, {
-          damping: 15,
-          stiffness: 200,
-        });
+    containerScale.value = withSpring(
+      0.98,
+      {
+        damping: 20,
+        stiffness: 300,
+      },
+      (finished) => {
+        if (finished) {
+          containerScale.value = withSpring(1, {
+            damping: 15,
+            stiffness: 200,
+          });
+        }
       }
-    });
+    );
   }, []);
 
-  const handlePageSelected = useCallback((event: any) => {
-    const { position } = event.nativeEvent;
-    setCurrentPage(position);
-    animatedPosition.value = withSpring(position, {
-      damping: 15,
-      stiffness: 120,
-    });
-    
-    // Trigger page change animation
-    runOnJS(triggerPageChangeAnimation)();
-    
-    // Enhanced haptic feedback on page change
-    if (Platform.OS === 'ios') {
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    }
-  }, [animatedPosition, triggerPageChangeAnimation]);
+  const handlePageSelected = useCallback(
+    (event: any) => {
+      const { position } = event.nativeEvent;
+      setCurrentPage(position);
+      animatedPosition.value = withSpring(position, {
+        damping: 15,
+        stiffness: 120,
+      });
 
-  const handlePageScroll = useCallback((event: any) => {
-    const { position, offset } = event.nativeEvent;
-    const smoothPosition = position + offset;
-    animatedPosition.value = smoothPosition;
-    
-    // Dynamic opacity based on scroll progress for smoother transitions
-    const scrollProgress = offset;
-    containerOpacity.value = interpolate(
-      Math.abs(scrollProgress),
-      [0, 0.5, 1],
-      [1, 0.95, 1],
-      Extrapolate.CLAMP
-    );
-  }, [animatedPosition, containerOpacity]);
+      // Trigger page change animation
+      runOnJS(triggerPageChangeAnimation)();
+
+      // Enhanced haptic feedback on page change
+      if (Platform.OS === "ios") {
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+      }
+    },
+    [animatedPosition, triggerPageChangeAnimation]
+  );
+
+  const handlePageScroll = useCallback(
+    (event: any) => {
+      const { position, offset } = event.nativeEvent;
+      const smoothPosition = position + offset;
+      animatedPosition.value = smoothPosition;
+
+      // Dynamic opacity based on scroll progress for smoother transitions
+      const scrollProgress = offset;
+      containerOpacity.value = interpolate(
+        Math.abs(scrollProgress),
+        [0, 0.5, 1],
+        [1, 0.95, 1],
+        Extrapolate.CLAMP
+      );
+    },
+    [animatedPosition, containerOpacity]
+  );
 
   const goToNextPage = useCallback(() => {
     if (currentPage < totalSteps - 1) {
@@ -105,7 +119,7 @@ export function OnboardingPager({ children, totalSteps, onComplete }: Onboarding
     if (onComplete) {
       onComplete();
     } else {
-      router.push('/onboarding/completion');
+      router.push("/onboarding/completion");
     }
   }, [onComplete]);
 
@@ -133,53 +147,68 @@ export function OnboardingPager({ children, totalSteps, onComplete }: Onboarding
   });
 
   return (
-    <Animated.View style={[styles.container, containerAnimatedStyle]}>
-      {/* Navigation */}
-      <OnboardingNavigation
-        currentStep={currentPage + 1}
-        totalSteps={totalSteps}
-        onBack={goToPreviousPage}
-        onSkip={skipToEnd}
-        canGoBack={currentPage > 0}
-        canSkip={currentPage < totalSteps - 1}
-        skipText={currentPage === totalSteps - 1 ? 'Complete' : 'Skip'}
-      />
-      
-      {/* Enhanced Progress */}
-      <SwipeableProgress 
-        currentStep={currentPage + 1} 
-        totalSteps={totalSteps} 
-        style={styles.progress}
-        animated={true}
-      />
-      
-      {/* Enhanced Pager with animations */}
-      <Animated.View style={[styles.pager, pagerAnimatedStyle]}>
-        <PagerView
-          ref={pagerRef}
-          style={styles.pagerView}
-          initialPage={0}
-          onPageSelected={handlePageSelected}
-          onPageScroll={handlePageScroll}
-          orientation="horizontal"
-          scrollEnabled={true}
-          keyboardDismissMode="on-drag"
-          pageMargin={0}
-          overdrag={true}
-          offscreenPageLimit={1}
-        >
-          {children.map((child, index) => (
-            <ThemedView key={index} style={styles.pageContainer}>
-              {child}
-            </ThemedView>
-          ))}
-        </PagerView>
+    <SafeAreaView style={styles.safeArea}>
+      <Animated.View style={[styles.container, containerAnimatedStyle]}>
+        {/* Navigation */}
+
+        <OnboardingNavigation
+          currentStep={currentPage + 1}
+          totalSteps={totalSteps}
+          onBack={goToPreviousPage}
+          onSkip={skipToEnd}
+          canGoBack={currentPage > 0}
+          canSkip={currentPage < totalSteps - 1}
+          skipText={currentPage === totalSteps - 1 ? "Complete" : "Skip"}
+        />
+
+        {/* Enhanced Progress */}
+        {/* <SwipeableProgress
+          currentStep={currentPage + 1}
+          totalSteps={totalSteps}
+          style={styles.progress}
+          animated={true}
+        /> */}
+
+        {/* Enhanced Pager with animations */}
+        <Animated.View style={[styles.pager, pagerAnimatedStyle]}>
+          <PagerView
+            ref={pagerRef}
+            style={styles.pagerView}
+            initialPage={0}
+            onPageSelected={handlePageSelected}
+            onPageScroll={handlePageScroll}
+            orientation="horizontal"
+            scrollEnabled={true}
+            keyboardDismissMode="on-drag"
+            pageMargin={0}
+            overdrag={true}
+            offscreenPageLimit={1}
+          >
+            {children.map((child, index) => (
+              <ThemedView key={index} style={styles.pageContainer}>
+                {React.isValidElement(child)
+                  ? React.cloneElement(child as React.ReactElement<any>, {
+                      onNext: goToNextPage,
+                      onPrevious: goToPreviousPage,
+                      onSkip: skipToEnd,
+                      currentStep: currentPage + 1,
+                      totalSteps: totalSteps,
+                      ...child.props,
+                    })
+                  : child}
+              </ThemedView>
+            ))}
+          </PagerView>
+        </Animated.View>
       </Animated.View>
-    </Animated.View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+  },
   container: {
     flex: 1,
   },

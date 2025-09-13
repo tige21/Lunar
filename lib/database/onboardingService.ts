@@ -69,6 +69,58 @@ export interface NotificationSettings {
   };
 }
 
+export interface ExtendedSleepData {
+  // Basic demographics for Context7 Level 1
+  age?: number;
+  gender?: 'male' | 'female' | 'other' | 'prefer_not_to_say';
+  
+  // Behavioral patterns for Context7 Level 2
+  sleepHabits?: {
+    weekdayBedtime?: string;
+    weekendBedtime?: string;
+    napFrequency: 'never' | 'rarely' | 'sometimes' | 'often' | 'daily';
+    weekendSleepIn?: boolean;
+    averageFallAsleepTime?: number; // minutes
+    nightWakingsFrequency?: number; // per week
+  };
+  
+  lifestyle?: {
+    exerciseFrequency: 'none' | 'rarely' | 'weekly' | 'several_times_week' | 'daily';
+    exerciseTime?: 'morning' | 'afternoon' | 'evening';
+    screenTimeBeforeBed?: number; // minutes
+    caffeineIntake: 'none' | 'low' | 'moderate' | 'high';
+    alcoholIntake: 'none' | 'rarely' | 'moderate' | 'frequent';
+    stressLevel?: number; // 1-5 scale
+    workSchedule: 'regular' | 'shift' | 'flexible' | 'irregular';
+  };
+  
+  environment?: {
+    bedroomTemperature?: number;
+    noiseLevel: 'very_quiet' | 'quiet' | 'moderate' | 'noisy';
+    lightLevel: 'dark' | 'dim' | 'moderate' | 'bright';
+    bedComfort?: number; // 1-5 scale
+    roomSharing?: boolean;
+    petSleepDisruption?: boolean;
+  };
+  
+  // Goals and motivations for Context7 Level 6
+  sleepGoals?: Array<{
+    type: 'sleep_duration' | 'sleep_quality' | 'consistency' | 'bedtime' | 'environment' | 'routine';
+    priority: 'low' | 'medium' | 'high';
+    description: string;
+    targetValue?: number;
+  }>;
+  
+  // Personalization preferences for Context7 Level 7
+  aiPreferences?: {
+    responseLength: 'brief' | 'medium' | 'detailed';
+    technicalDepth: 'basic' | 'intermediate' | 'advanced';
+    motivationalTone: 'gentle' | 'encouraging' | 'challenging' | 'scientific';
+    reminderFrequency: 'none' | 'weekly' | 'daily';
+    feedbackPreference: 'immediate' | 'daily' | 'weekly';
+  };
+}
+
 export interface UserPreferences {
   notificationsEnabled: boolean;
   reminderTime: string;
@@ -79,6 +131,9 @@ export interface UserPreferences {
   notificationSettings?: NotificationSettings;
   aiChatIntroduced?: boolean;
   language?: 'en' | 'ru';
+  
+  // Extended data for Context7
+  extendedData?: ExtendedSleepData;
 }
 
 class OnboardingService {
@@ -228,6 +283,99 @@ class OnboardingService {
         theme: 'auto',
         privacyMode: true,
         aiChatIntroduced: false,
+      };
+    }
+  }
+
+  /**
+   * Save extended sleep data for Context7
+   */
+  async saveExtendedData(extendedData: ExtendedSleepData): Promise<void> {
+    try {
+      const preferences = await this.getUserPreferences();
+      await this.saveUserPreferences({
+        ...preferences,
+        extendedData: {
+          ...preferences.extendedData,
+          ...extendedData,
+        },
+      });
+    } catch (error) {
+      console.error('Error saving extended data:', error);
+      throw new Error('Failed to save extended sleep data');
+    }
+  }
+
+  /**
+   * Get extended sleep data
+   */
+  async getExtendedData(): Promise<ExtendedSleepData | null> {
+    try {
+      const preferences = await this.getUserPreferences();
+      return preferences.extendedData || null;
+    } catch (error) {
+      console.error('Error getting extended data:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Update specific section of extended data
+   */
+  async updateExtendedDataSection<T extends keyof ExtendedSleepData>(
+    section: T, 
+    data: ExtendedSleepData[T]
+  ): Promise<void> {
+    try {
+      const currentExtended = await this.getExtendedData() || {};
+      const updatedExtended = {
+        ...currentExtended,
+        [section]: data,
+      };
+      await this.saveExtendedData(updatedExtended);
+    } catch (error) {
+      console.error(`Error updating extended data section ${section}:`, error);
+      throw new Error(`Failed to update ${section} data`);
+    }
+  }
+
+  /**
+   * Check completion status of extended data
+   */
+  async getExtendedDataCompleteness(): Promise<{
+    percentage: number;
+    completedSections: string[];
+    missingSections: string[];
+  }> {
+    try {
+      const extendedData = await this.getExtendedData();
+      const totalSections = ['age', 'gender', 'sleepHabits', 'lifestyle', 'environment', 'sleepGoals', 'aiPreferences'];
+      const completedSections: string[] = [];
+
+      if (extendedData) {
+        if (extendedData.age) completedSections.push('age');
+        if (extendedData.gender) completedSections.push('gender');
+        if (extendedData.sleepHabits) completedSections.push('sleepHabits');
+        if (extendedData.lifestyle) completedSections.push('lifestyle');
+        if (extendedData.environment) completedSections.push('environment');
+        if (extendedData.sleepGoals && extendedData.sleepGoals.length > 0) completedSections.push('sleepGoals');
+        if (extendedData.aiPreferences) completedSections.push('aiPreferences');
+      }
+
+      const missingSections = totalSections.filter(section => !completedSections.includes(section));
+      const percentage = Math.round((completedSections.length / totalSections.length) * 100);
+
+      return {
+        percentage,
+        completedSections,
+        missingSections,
+      };
+    } catch (error) {
+      console.error('Error checking extended data completeness:', error);
+      return {
+        percentage: 0,
+        completedSections: [],
+        missingSections: ['age', 'gender', 'sleepHabits', 'lifestyle', 'environment', 'sleepGoals', 'aiPreferences'],
       };
     }
   }

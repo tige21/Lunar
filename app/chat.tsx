@@ -1,8 +1,3 @@
-/**
- * Optimized Chat Screen Implementation Example
- * Demonstrates the full integration of mobile performance optimizations
- */
-
 import * as Haptics from 'expo-haptics';
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useCallback, useMemo } from 'react';
@@ -21,7 +16,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import { ChatBubble } from '@/components/ui/ChatBubble';
+import ChatBubbleSimple from '@/components/ui/ChatBubbleSimple';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { LanguageSwitcher } from '@/components/ui/LanguageSwitcher';
 import { QuickSuggestions } from '@/components/ui/QuickSuggestions';
@@ -44,7 +39,7 @@ const QUICK_SUGGESTIONS = [
   { id: '6', text: 'Sleep environment tips', icon: 'house.fill', category: 'improvement' as const },
 ];
 
-export default function OptimizedChatScreen() {
+export default function ChatScreen() {
   const insets = useSafeAreaInsets();
   const colorScheme = useColorScheme();
   const backgroundColor = useThemeColor({}, 'background') as string;
@@ -67,7 +62,6 @@ export default function OptimizedChatScreen() {
     handleScroll,
     handleScrollBegin,
     handleScrollEnd,
-    getItemLayout,
     getPerformanceReport,
     getMemoryUsage,
   } = useChatOptimization({
@@ -142,43 +136,56 @@ export default function OptimizedChatScreen() {
     }
   }, [sendMessage, messages]);
 
-  // Optimized message rendering with memoization
-  const renderMessage = useCallback(({ item }: { item: ChatMessage }) => {
+  // Memoized chat bubble component to prevent unnecessary re-renders
+  const MemoizedChatBubble = React.memo(function MemoizedChatBubble({ 
+    message, 
+    onRetry 
+  }: { 
+    message: ChatMessage; 
+    onRetry: (id: string) => void;
+  }) {
+    const handlePress = React.useCallback(() => {
+      console.log('Message pressed:', message.id);
+    }, [message.id]);
+
+    const handleLongPress = React.useCallback(() => {
+      Alert.alert(
+        'Message Actions',
+        'Choose an action for this message',
+        [
+          {
+            text: 'Copy',
+            onPress: () => {
+              if (Platform.OS === 'ios') {
+                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+              }
+              Alert.alert('Copied', 'Message copied to clipboard');
+            },
+          },
+          ...(message.status === 'error' ? [{
+            text: 'Retry',
+            onPress: () => onRetry(message.id),
+          }] : []),
+          { text: 'Cancel', style: 'cancel' },
+        ]
+      );
+    }, [message.id, message.status, onRetry]);
+
     return (
-      <ChatBubble 
+      <ChatBubbleSimple 
+        message={message}
+        onPress={handlePress}
+        onLongPress={handleLongPress}
+      />
+    );
+  });
+
+  // Optimized message rendering with proper memoization
+  const renderMessage = React.useCallback(({ item }: { item: ChatMessage }) => {
+    return (
+      <MemoizedChatBubble 
         message={item}
-        onLongPress={() => {
-          const actions = ['Copy'];
-          if (!item.isUser) actions.push('Share');
-          if (item.status === 'error') actions.unshift('Retry');
-          
-          Alert.alert(
-            'Message Actions',
-            'Choose an action for this message',
-            [
-              ...actions.map(action => ({
-                text: action,
-                onPress: () => {
-                  if (Platform.OS === 'ios') {
-                    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-                  }
-                  
-                  if (action === 'Retry' && item.status === 'error') {
-                    retryMessage(item.id);
-                  } else if (action === 'Copy') {
-                    // TODO: Implement copy functionality
-                    Alert.alert('Copied', 'Message copied to clipboard');
-                  } else if (action === 'Share') {
-                    // TODO: Implement share functionality
-                    Alert.alert('Share', 'Share functionality coming soon');
-                  }
-                },
-              })),
-              { text: 'Cancel', style: 'cancel' },
-            ]
-          );
-        }}
-        onRetryPress={item.status === 'error' ? () => retryMessage(item.id) : undefined}
+        onRetry={retryMessage}
       />
     );
   }, [retryMessage]);
@@ -194,10 +201,43 @@ export default function OptimizedChatScreen() {
     setSmartReplies([]);
   }, [handleSendMessage]);
 
+  // Memoized footer component to prevent unnecessary re-renders
+  const MemoizedFooter = React.useMemo(() => {
+    return (
+      <>
+        {isTyping && (
+          <TypingIndicator 
+            isVisible={isTyping} 
+            aiName="Sleep Coach"
+          />
+        )}
+        
+        {smartReplies.length > 0 && (
+          <SmartReplies
+            replies={smartReplies}
+            onReplyPress={handleSmartReplyPress}
+            isVisible={!isTyping && smartReplies.length > 0}
+          />
+        )}
+        
+        {showSuggestions && messages.length <= 1 && (
+          <QuickSuggestions
+            suggestions={QUICK_SUGGESTIONS}
+            onSuggestionPress={handleSuggestionPress}
+            isVisible={showSuggestions}
+          />
+        )}
+      </>
+    );
+  }, [isTyping, smartReplies, showSuggestions, messages.length, handleSmartReplyPress, handleSuggestionPress]);
+
   // Memoized keyboard offset calculation
   const keyboardOffset = useMemo(() => {
     return Platform.OS === 'ios' ? 90 + insets.bottom : 0;
   }, [insets.bottom]);
+
+  // Optimized key extractor
+  const keyExtractor = React.useCallback((item: ChatMessage) => item.id, []);
 
   // Performance monitoring (development only)
   React.useEffect(() => {
@@ -228,7 +268,7 @@ export default function OptimizedChatScreen() {
       <FlatList
         data={messages}
         renderItem={renderMessage}
-        keyExtractor={(item) => item.id}
+        keyExtractor={keyExtractor}
         style={styles.messagesList}
         contentContainerStyle={[
           styles.messagesContainer,
@@ -237,18 +277,18 @@ export default function OptimizedChatScreen() {
         showsVerticalScrollIndicator={false}
         
         // Performance optimizations
-        removeClippedSubviews={Platform.OS === 'android'}
-        maxToRenderPerBatch={8}
-        updateCellsBatchingPeriod={100}
-        initialNumToRender={12}
-        windowSize={8}
-        getItemLayout={getItemLayout}
+        removeClippedSubviews={true}
+        maxToRenderPerBatch={10}
+        updateCellsBatchingPeriod={50}
+        initialNumToRender={15}
+        windowSize={21}
+        getItemLayout={undefined}
         
         // Scroll handling
         onScroll={handleScroll}
         onScrollBeginDrag={handleScrollBegin}
         onScrollEndDrag={handleScrollEnd}
-        scrollEventThrottle={16}
+        scrollEventThrottle={8}
         
         // Load more functionality
         onEndReached={loadMoreMessages}
@@ -274,33 +314,8 @@ export default function OptimizedChatScreen() {
           </TouchableOpacity>
         ) : null}
         
-        // Footer components
-        ListFooterComponent={() => (
-          <>
-            {isTyping && (
-              <TypingIndicator 
-                isVisible={isTyping} 
-                aiName="Sleep Coach"
-              />
-            )}
-            
-            {smartReplies.length > 0 && (
-              <SmartReplies
-                replies={smartReplies}
-                onReplyPress={handleSmartReplyPress}
-                isVisible={!isTyping && smartReplies.length > 0}
-              />
-            )}
-            
-            {showSuggestions && messages.length <= 1 && (
-              <QuickSuggestions
-                suggestions={QUICK_SUGGESTIONS}
-                onSuggestionPress={handleSuggestionPress}
-                isVisible={showSuggestions}
-              />
-            )}
-          </>
-        )}
+        // Footer components (memoized)
+        ListFooterComponent={MemoizedFooter}
         
         // Accessibility
         accessible={true}

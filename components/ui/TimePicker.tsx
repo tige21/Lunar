@@ -24,8 +24,8 @@ import * as Haptics from 'expo-haptics';
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 export type TimePickerProps = {
-  value?: Date;
-  onChange: (time: Date) => void;
+  value?: Date | string;
+  onChange: (time: Date | string) => void;
   label?: string;
   placeholder?: string;
   mode?: '12h' | '24h';
@@ -53,14 +53,28 @@ export function TimePicker({
   const textColor = useThemeColor({}, 'text');
   const tintColor = useThemeColor({}, 'tint');
 
-  const formatTime = (time?: Date): string => {
+  const formatTime = (time?: Date | string): string => {
     if (!time) return '';
+    
+    // Ensure we have a Date object
+    let dateObj: Date;
+    if (time instanceof Date) {
+      dateObj = time;
+    } else if (typeof time === 'string') {
+      // Handle string format like "23:00"
+      const [hours, minutes] = time.split(':').map(Number);
+      dateObj = new Date();
+      dateObj.setHours(hours, minutes, 0, 0);
+    } else {
+      return '';
+    }
+    
     const options: Intl.DateTimeFormatOptions = {
       hour: 'numeric',
       minute: '2-digit',
       hour12: mode === '12h',
     };
-    return time.toLocaleTimeString('en-US', options);
+    return dateObj.toLocaleTimeString('en-US', options);
   };
 
   const handleTimeChange = (event: any, selectedTime?: Date) => {
@@ -69,7 +83,14 @@ export function TimePicker({
     }
     
     if (selectedTime) {
-      onChange(selectedTime);
+      // If the original value was a string, return a string in HH:MM format
+      if (typeof value === 'string') {
+        const hours = selectedTime.getHours().toString().padStart(2, '0');
+        const minutes = selectedTime.getMinutes().toString().padStart(2, '0');
+        onChange(`${hours}:${minutes}`);
+      } else {
+        onChange(selectedTime);
+      }
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     }
   };
@@ -131,7 +152,15 @@ export function TimePicker({
               </ThemedView>
               
               <DateTimePicker
-                value={value || new Date()}
+                value={(() => {
+                  if (!value) return new Date();
+                  if (value instanceof Date) return value;
+                  // Convert string to Date
+                  const [hours, minutes] = value.split(':').map(Number);
+                  const date = new Date();
+                  date.setHours(hours, minutes, 0, 0);
+                  return date;
+                })()}
                 mode="time"
                 is24Hour={mode === '24h'}
                 display="spinner"
@@ -149,7 +178,15 @@ export function TimePicker({
     if (showPicker) {
       return (
         <DateTimePicker
-          value={value || new Date()}
+          value={(() => {
+            if (!value) return new Date();
+            if (value instanceof Date) return value;
+            // Convert string to Date
+            const [hours, minutes] = value.split(':').map(Number);
+            const date = new Date();
+            date.setHours(hours, minutes, 0, 0);
+            return date;
+          })()}
           mode="time"
           is24Hour={mode === '24h'}
           display="default"

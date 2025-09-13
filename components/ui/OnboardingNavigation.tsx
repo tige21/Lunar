@@ -128,6 +128,7 @@ const styles = StyleSheet.create({
   leftSection: {
     flex: 1,
     alignItems: 'flex-start',
+    minWidth: 80,
   },
   centerSection: {
     flex: 1,
@@ -136,23 +137,26 @@ const styles = StyleSheet.create({
   rightSection: {
     flex: 1,
     alignItems: 'flex-end',
+    minWidth: 80,
   },
   navButton: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
     paddingVertical: 8,
     paddingHorizontal: 12,
     borderRadius: 8,
+    minWidth: 72,
   },
   backIcon: {
-    marginRight: 4,
+    marginRight: 8,
   },
   navText: {
     fontSize: 16,
     fontWeight: '500',
   },
   stepIndicator: {
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: '500',
     opacity: 0.7,
   },

@@ -55,6 +55,18 @@ export { TypingIndicator } from './TypingIndicator';
 export { QuickSuggestions } from './QuickSuggestions';
 export { SmartReplies, generateSmartReplies } from './SmartReplies';
 
+// Onboarding screen components
+export {
+  ChronotypeHeader,
+  ChronotypeQuestion,
+  ChronotypeResults,
+  getChronotypeResult,
+  getResultTitle,
+  getResultEmoji,
+  formatProgressText,
+  messages as chronotypeMessages
+} from './ChronotypeScreen';
+
 // Theme provider
 export { LunarThemeProvider } from '../providers/LunarThemeProvider';
 
@@ -88,6 +100,14 @@ export type { SleepProgressBarProps } from './SleepProgressBar';
 // Chat types
 export type { ChatMessage } from './ChatBubble';
 export type { QuickSuggestion } from './QuickSuggestions';
+
+// Chronotype screen types
+export type {
+  ChronotypeScreenProps,
+  ChronotypeResult,
+  Question,
+  ChronotypeMessages
+} from './ChronotypeScreen';
 
 // Enhanced Typography Constants
 export { Typography, TextStyles, Spacing, BorderRadius } from '../../constants/Typography';

@@ -1,10 +1,10 @@
 /**
  * AI Chat Service for Lunar Sleep App
- * Provides context-aware responses using DeepSeek API with multilingual support
+ * Provides context-aware responses using Google Gemini API with multilingual support
  * Maintains backward compatibility while adding real AI capabilities
  */
 
-import { multilingualDeepSeekService, type MultilingualChatMessage } from './multilingualDeepSeekService';
+import { geminiService, type SleepChatResponse } from './geminiService';
 import { userContextManager } from './userContextManager';
 import { languageDetector, type SupportedLanguage } from './languageDetection';
 
@@ -40,7 +40,7 @@ export class SleepAIService {
   private static instance: SleepAIService;
   private context: ChatContext = {};
   private useRealAI: boolean = true;
-  private conversationHistory: MultilingualChatMessage[] = [];
+  private conversationHistory: SleepChatResponse[] = [];
 
   static getInstance(): SleepAIService {
     if (!SleepAIService.instance) {
@@ -98,22 +98,13 @@ export class SleepAIService {
   }
 
   /**
-   * Generate response using real AI (DeepSeek)
+   * Generate response using real AI (Gemini)
    */
   private async generateAIResponse(userMessage: string, options?: {
     forceLanguage?: SupportedLanguage;
-  }): Promise<MultilingualChatMessage> {
-    // Prepare conversation history for context
-    const historyContext = this.conversationHistory.slice(-4).map(msg => ({
-      text: msg.text,
-      language: msg.language,
-    }));
-
-    // Generate response using multilingual service
-    const response = await multilingualDeepSeekService.generateResponse(userMessage, {
-      conversationHistory: historyContext,
-      forceLanguage: options?.forceLanguage,
-    });
+  }): Promise<SleepChatResponse> {
+    // Generate response using Gemini service
+    const response = await geminiService.generateResponse(userMessage);
 
     return response;
   }
@@ -467,7 +458,7 @@ export class SleepAIService {
    * Switch language preference
    */
   async setLanguage(language: SupportedLanguage): Promise<void> {
-    await multilingualDeepSeekService.switchLanguage(language);
+    geminiService.setLanguagePreference(language);
     await userContextManager.setLanguagePreference(language);
   }
 
@@ -490,7 +481,7 @@ export class SleepAIService {
    */
   clearHistory(): void {
     this.conversationHistory = [];
-    multilingualDeepSeekService.clearAllData();
+    geminiService.clearHistory();
   }
 
   /**
@@ -502,9 +493,11 @@ export class SleepAIService {
     languageSwitches: number;
     usingRealAI: boolean;
   } {
-    const stats = multilingualDeepSeekService.getConversationSummary();
+    const stats = geminiService.getStats();
     return {
-      ...stats,
+      messageCount: stats.conversationLength,
+      primaryLanguage: this.getCurrentLanguage(),
+      languageSwitches: 0, // TODO: implement language switch tracking
       usingRealAI: this.useRealAI,
     };
   }
@@ -519,12 +512,13 @@ export class SleepAIService {
     lastError?: string;
   }> {
     try {
-      const healthStatus = await multilingualDeepSeekService.getHealthStatus();
+      const geminiHealthy = await geminiService.testConnection();
+      const userContext = await userContextManager.getUserContext();
       return {
-        aiServiceHealthy: healthStatus.deepseekConnectivity,
-        userContextLoaded: healthStatus.userContextLoaded,
-        languageDetectionWorking: healthStatus.languageDetectionWorking,
-        lastError: healthStatus.lastError,
+        aiServiceHealthy: geminiHealthy,
+        userContextLoaded: !!userContext,
+        languageDetectionWorking: true,
+        lastError: undefined,
       };
     } catch (error) {
       return {

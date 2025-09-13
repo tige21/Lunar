@@ -1,8 +1,17 @@
-# Welcome to your Expo app 👋
+# Lunar - AI Sleep Coaching App 🌙
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This is a React Native sleep coaching app built with [Expo](https://expo.dev) that uses Google Gemini AI to provide personalized sleep insights and recommendations.
 
-## Get started
+## Prerequisites
+
+Before running the app, you need to obtain a **Google Gemini API key**:
+
+1. Go to [Google AI Studio](https://makersuite.google.com/app/apikey)
+2. Sign in with your Google account
+3. Create a new API key
+4. Copy the API key for the next step
+
+## Setup
 
 1. Install dependencies
 
@@ -10,7 +19,19 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
    npm install
    ```
 
-2. Start the app
+2. Configure environment variables
+
+   Copy `.env.example` to `.env` and add your API key:
+   ```bash
+   cp .env.example .env
+   ```
+   
+   Edit `.env` and replace `your_gemini_api_key_here` with your actual Gemini API key:
+   ```bash
+   GEMINI_API_KEY=your_actual_api_key_here
+   ```
+
+3. Start the app
 
    ```bash
    npx expo start

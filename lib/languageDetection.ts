@@ -218,9 +218,9 @@ class LanguageDetectionService {
   /**
    * Get device language setting
    */
-  private getDeviceLanguage(): SupportedLanguage {
-    const locale = Localization.getLocales()[0].languageCode;
-    return locale.startsWith('ru') ? 'ru' : 'en';
+  getDeviceLanguage(): SupportedLanguage {
+    const locale = Localization.getLocales()[0]?.languageCode;
+    return locale?.startsWith('ru') ? 'ru' : 'en';
   }
 
   /**
