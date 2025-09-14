@@ -8,6 +8,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import '../global.css';
 
 import { LunarThemeProvider } from '@/components/providers/LunarThemeProvider';
+import { SettingsProvider } from '@/contexts/SettingsContext';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 
@@ -57,20 +58,22 @@ export default function RootLayout() {
   return (
     <SafeAreaProvider>
       <GestureHandlerRootView style={{ flex: 1 }}>
-        <LunarThemeProvider>
-          <ThemeProvider value={colorScheme === 'dark' ? LunarDarkTheme : LunarLightTheme}>
-            <Stack>
-              <Stack.Screen name="onboarding" options={{ headerShown: false }} />
-              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-              <Stack.Screen name="chat" options={{ headerShown: false }} />
-              <Stack.Screen name="+not-found" />
-            </Stack>
-            <StatusBar 
-              style={colorScheme === 'dark' ? 'light' : 'dark'}
-              backgroundColor={colorScheme === 'dark' ? Colors.dark.background : Colors.light.background}
-            />
-          </ThemeProvider>
-        </LunarThemeProvider>
+        <SettingsProvider>
+          <LunarThemeProvider>
+            <ThemeProvider value={colorScheme === 'dark' ? LunarDarkTheme : LunarLightTheme}>
+              <Stack>
+                <Stack.Screen name="onboarding" options={{ headerShown: false }} />
+                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                <Stack.Screen name="chat" options={{ headerShown: false }} />
+                <Stack.Screen name="+not-found" />
+              </Stack>
+              <StatusBar
+                style={colorScheme === 'dark' ? 'light' : 'dark'}
+                backgroundColor={colorScheme === 'dark' ? Colors.dark.background : Colors.light.background}
+              />
+            </ThemeProvider>
+          </LunarThemeProvider>
+        </SettingsProvider>
       </GestureHandlerRootView>
     </SafeAreaProvider>
   );

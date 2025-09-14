@@ -42,6 +42,17 @@ This is a React Native mobile app called "Lunar" built with Expo SDK 53. It uses
 - **Expo Config**: Supports new architecture, typed routes, edge-to-edge on Android
 - **Platform Support**: iOS (with tablet support), Android (adaptive icons), and web (static output)
 
+## Styling Guidelines
+
+- **Functional Blocks**: All functional blocks in the app should use `useThemeColor({ light: '#FFFFFF', dark: '#1A1A1A' }, 'background')` for background colors and include consistent shadow styling:
+  ```
+  shadowColor: '#000',
+  shadowOffset: { width: 0, height: 4 },
+  shadowOpacity: 0.1,
+  shadowRadius: 12,
+  elevation: 4,
+  ```
+
 ## Development Notes
 
 - Uses React 19.0.0 with React Native 0.79.6
