@@ -9,32 +9,32 @@
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import NetInfo from '@react-native-community/netinfo';
-import { userContextManager, type UserContext } from './userContextManager';
 import { context7Manager } from './context7Manager';
 import { languageDetector, type SupportedLanguage } from './languageDetection';
+import { userContextManager, type UserContext } from './userContextManager';
 
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY || '';
-const GEMINI_BASE_URL = process.env.GEMINI_BASE_URL || 'https://generativelanguage.googleapis.com/v1beta';
+const GEMINI_API_KEY = process.env.EXPO_PUBLIC_GEMINI_API_KEY;
+const GEMINI_BASE_URL = process.env.EXPO_PUBLIC_GEMINI_BASE_URL || 'https://generativelanguage.googleapis.com/v1beta';
 const STORAGE_KEY = '@gemini_response_cache';
 
 export interface GeminiMessage {
   role: 'user' | 'model';
-  parts: Array<{ text: string }>;
+  parts: { text: string }[];
 }
 
 export interface GeminiResponse {
-  candidates: Array<{
+  candidates: {
     content: {
-      parts: Array<{ text: string }>;
+      parts: { text: string }[];
       role: string;
     };
     finishReason: string;
     index: number;
-    safetyRatings: Array<{
+    safetyRatings: {
       category: string;
       probability: string;
-    }>;
-  }>;
+    }[];
+  }[];
   usageMetadata: {
     promptTokenCount: number;
     candidatesTokenCount: number;

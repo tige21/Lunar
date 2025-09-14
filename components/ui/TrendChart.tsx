@@ -3,10 +3,9 @@ import { useThemeColor } from '@/hooks/useThemeColor';
 import * as Haptics from 'expo-haptics';
 import React, { useCallback, useMemo, useState } from 'react';
 import { Dimensions, StyleSheet, View } from 'react-native';
-import { PanGestureHandler } from 'react-native-gesture-handler';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
   runOnJS,
-  useAnimatedGestureHandler,
   useAnimatedStyle,
   useSharedValue,
   withSpring
@@ -104,26 +103,20 @@ export function TrendChart({
     onDataPointPress?.(data[index], index);
   }, [data, onDataPointPress]);
   
-  const gestureHandler = useAnimatedGestureHandler({
-    onStart: (event) => {
-      if (interactive) {
-        const pointIndex = findNearestPoint(event.x);
-        runOnJS(handleDataPointPress)(pointIndex);
-      }
-    },
-    onActive: (event) => {
-      if (interactive) {
-        translateX.value = event.x;
-        const pointIndex = findNearestPoint(event.x);
-        runOnJS(setSelectedPointIndex)(pointIndex);
-      }
-    },
-    onEnd: () => {
-      if (interactive) {
-        runOnJS(setSelectedPointIndex)(null);
-      }
-    }
-  });
+  const panGesture = Gesture.Pan()
+    .enabled(interactive)
+    .onStart((event) => {
+      const pointIndex = findNearestPoint(event.x);
+      runOnJS(handleDataPointPress)(pointIndex);
+    })
+    .onUpdate((event) => {
+      translateX.value = event.x;
+      const pointIndex = findNearestPoint(event.x);
+      runOnJS(setSelectedPointIndex)(pointIndex);
+    })
+    .onEnd(() => {
+      runOnJS(setSelectedPointIndex)(null);
+    });
   
   const animatedTooltipStyle = useAnimatedStyle(() => {
     return {
@@ -166,7 +159,7 @@ export function TrendChart({
       )}
       
       <View style={[styles.chartContainer, { width: chartWidth, height }]}>
-        <PanGestureHandler onGestureEvent={gestureHandler} enabled={interactive}>
+        <GestureDetector gesture={panGesture}>
           <Animated.View>
             <Svg width={chartWidth} height={chartHeight} style={styles.svg}>
           <Defs>
@@ -242,7 +235,7 @@ export function TrendChart({
               </Animated.View>
             )}
           </Animated.View>
-        </PanGestureHandler>
+        </GestureDetector>
         
         {/* X-axis labels */}
         <View style={styles.xAxisLabels}>

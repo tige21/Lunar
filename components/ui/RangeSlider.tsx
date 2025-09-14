@@ -1,23 +1,18 @@
-import React, { useState, useRef } from 'react';
-import {
-  StyleSheet,
-  View,
-  PanGestureHandler,
-  State,
-} from 'react-native';
-import { PanGestureHandler as RNGHPanGestureHandler } from 'react-native-gesture-handler';
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  useAnimatedGestureHandler,
-  runOnJS,
-  interpolate,
-  Extrapolate,
-} from 'react-native-reanimated';
-import { ThemedView } from '../ThemedView';
-import { ThemedText } from '../ThemedText';
-import { useThemeColor } from '@/hooks/useThemeColor';
 import { Colors } from '@/constants/Colors';
+import { useThemeColor } from '@/hooks/useThemeColor';
+import React, { useState } from 'react';
+import {
+    StyleSheet,
+    View,
+} from 'react-native';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import Animated, {
+    runOnJS,
+    useAnimatedStyle,
+    useSharedValue
+} from 'react-native-reanimated';
+import { ThemedText } from '../ThemedText';
+import { ThemedView } from '../ThemedView';
 
 export type RangeSliderProps = {
   min: number;
@@ -71,12 +66,15 @@ export function RangeSlider({
     onChange(clampedValue);
   };
 
-  const gestureHandler = useAnimatedGestureHandler({
-    onStart: (_, context: any) => {
-      context.startX = translateX.value;
-    },
-    onActive: (event, context) => {
-      const newX = context.startX + event.translationX;
+  const startX = useSharedValue(0);
+
+  const panGesture = Gesture.Pan()
+    .enabled(!disabled)
+    .onStart(() => {
+      startX.value = translateX.value;
+    })
+    .onUpdate((event) => {
+      const newX = startX.value + event.translationX;
       const clampedX = Math.max(0, Math.min(SLIDER_WIDTH - THUMB_SIZE, newX));
       translateX.value = clampedX;
 
@@ -84,8 +82,10 @@ export function RangeSlider({
       const percentage = clampedX / (SLIDER_WIDTH - THUMB_SIZE);
       const newValue = min + percentage * (max - min);
       runOnJS(updateValue)(newValue);
-    },
-  });
+    })
+    .onEnd(() => {
+      // Gesture ended
+    });
 
   const thumbStyle = useAnimatedStyle(() => {
     return {
@@ -139,7 +139,7 @@ export function RangeSlider({
         />
 
         {/* Thumb */}
-        <RNGHPanGestureHandler onGestureEvent={gestureHandler} enabled={!disabled}>
+        <GestureDetector gesture={panGesture}>
           <Animated.View
             style={[
               styles.thumb,
@@ -150,7 +150,7 @@ export function RangeSlider({
               thumbStyle,
             ]}
           />
-        </RNGHPanGestureHandler>
+        </GestureDetector>
       </ThemedView>
 
       {/* Min/Max labels */}
